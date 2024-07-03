@@ -5,9 +5,10 @@ import Link from "next/link";
 import React from "react";
 
 interface CourseSideBarProps {
-  course: Course & { section: Section[] };
+  course: Course & { sections: Section[] };
   studentId: string;
 }
+
 const CourseSideBar = async ({ course, studentId }: CourseSideBarProps) => {
   const publishedSections = await db.section.findMany({
     where: {
@@ -19,8 +20,7 @@ const CourseSideBar = async ({ course, studentId }: CourseSideBarProps) => {
     },
   });
 
-  // returning ids array [1,2,3 etc]
-  const publishedSectionsIds = publishedSections.map((section) => section.id);
+  const publishedSectionIds = publishedSections.map((section) => section.id);
 
   const purchase = await db.purchase.findUnique({
     where: {
@@ -35,20 +35,21 @@ const CourseSideBar = async ({ course, studentId }: CourseSideBarProps) => {
     where: {
       studentId,
       sectionId: {
-        in: publishedSectionsIds,
+        in: publishedSectionIds,
       },
       isCompleted: true,
     },
   });
 
   const progressPercentage =
-    (completedSections / publishedSectionsIds.length) * 100;
+    (completedSections / publishedSectionIds.length) * 100;
+
   return (
     <div className="hidden md:flex flex-col w-64 border-r shadow-md px-3 my-4 text-sm font-medium">
-      <h1 className="text-lg font-bold text-center mb-4">{course.title}</h1>{" "}
+      <h1 className="text-lg font-bold text-center mb-4">{course.title}</h1>
       {purchase && (
         <div>
-          <Progress value={progressPercentage} className="h-2 bg-[#FDAB04]" />
+          <Progress value={progressPercentage} className="h-2" />
           <p className="text-xs">{Math.round(progressPercentage)}% completed</p>
         </div>
       )}
