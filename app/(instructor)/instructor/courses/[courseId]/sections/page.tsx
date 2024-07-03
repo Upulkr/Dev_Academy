@@ -31,7 +31,7 @@ const CourseCurrculmPage = async ({
   if (!course) {
     return redirect("/instructor/courses");
   }
-  console.log(course);
+
   return <CreateSectionForm course={course} />;
 };
 

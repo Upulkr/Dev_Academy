@@ -39,7 +39,13 @@ export const POST = async (
       },
     });
 
-    if (!section || !muxData || !section.title || !section.description || !section.videoUrl) {
+    if (
+      !section ||
+      !muxData ||
+      !section.title ||
+      !section.description ||
+      !section.videoUrl
+    ) {
       return new NextResponse("Missing required fields", { status: 400 });
     }
 
@@ -55,7 +61,7 @@ export const POST = async (
 
     return NextResponse.json(publishedSection, { status: 200 });
   } catch (err) {
-    console.log("[section_publish_POST]", err)
+    console.log("[section_publish_POST]", err);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
-}
+};

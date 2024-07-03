@@ -43,6 +43,7 @@ const SectionDetailsPage = async ({
   }
 
   const requiredFields = [section.title, section.description, section.videoUrl];
+
   const requiredFieldsCount = requiredFields.length;
   const missingFields = requiredFields.filter((field) => !Boolean(field)); // Return falsy values: undefined, null, 0, false, NaN, ''
   const missingFieldsCount = missingFields.length;
